@@ -1,0 +1,318 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Playfair+Display:wght@400;600&display=swap');
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+/* Background layar penuh (kamu bisa ganti URL ini dengan gambar background utuh jika ada) */
+.app-wrapper {
+  position: relative;
+  min-height: 100vh;
+  background-color: #8fa886; 
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 40px;
+  font-family: 'Inter', sans-serif;
+  overflow: hidden;
+}
+
+.background-img {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  z-index: 0;
+}
+
+.main-container {
+  position: relative;
+  z-index: 1;
+  background-color: #ffffff;
+  width: 100%;
+  max-width: 1200px;
+  border-radius: 24px;
+  padding: 50px 60px;
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.2);
+}
+
+/* Header */
+.header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 50px;
+}
+
+.logo-img {
+  width: 70px;
+  height: auto;
+}
+
+.logo-text {
+  font-family: 'Playfair Display', serif;
+  font-size: 28px;
+  font-weight: 600;
+  color: #1a1a1a;
+}
+
+/* Layout Utama */
+.content-layout {
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+}
+
+/* Baris Atas */
+.top-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  gap: 40px;
+}
+
+/* Baris Bawah */
+.bottom-row {
+  display: flex;
+  gap: 40px;
+}
+
+/* Kolom Kiri */
+.column-left {
+  flex: 1.1;
+  display: flex;
+  flex-direction: column;
+}
+
+.title-section {
+  flex: 1;
+}
+
+.title-light {
+  font-family: 'Playfair Display', serif;
+  font-weight: 400;
+  font-size: 42px;
+  color: #333;
+  line-height: 1.2;
+  white-space: nowrap;
+}
+
+.title-bold {
+  font-family: 'Playfair Display', serif;
+  font-weight: 600;
+  font-size: 42px;
+  color: #111;
+  line-height: 1.2;
+  margin-top: 5px;
+  white-space: nowrap;
+}
+
+/* Card Fitur (Hijau) */
+.feature-card {
+  background-color: #dbe4cd;
+  border-radius: 20px;
+  padding: 20px 20px 20px 20px;
+  display: flex;
+  gap: 24px;
+  margin-bottom: 40px;
+  flex-grow: 1;
+}
+
+.feature-img-wrapper {
+  flex: 0.8;
+}
+
+.feature-img-wrapper img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 12px;
+  min-height: 180px;
+}
+
+.feature-info {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding-right: 10px;
+}
+
+.feature-info p {
+  font-family: 'Playfair Display', serif;
+  font-size: 20px;
+  color: #1a1a1a;
+  line-height: 1.4;
+  font-weight: 600;
+  margin-bottom: auto;
+  margin-top: 40px;
+}
+
+.upload-action {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 12px;
+  font-size: 14px;
+  font-weight: 600;
+  color: #013328;
+  cursor: pointer;
+  margin-top: 20px;
+}
+
+.icon-box {
+  background-color: #013328;
+  width: 34px;
+  height: 34px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 8px;
+}
+
+/* Tombol Aksi */
+.action-buttons {
+  display: flex;
+  gap: 16px;
+}
+
+.btn-primary, .btn-secondary {
+  padding: 14px 32px;
+  border-radius: 30px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-family: 'Inter', sans-serif;
+}
+
+.btn-primary {
+  background-color: #013328;
+  color: white;
+  border: none;
+}
+
+.btn-primary:hover {
+  background-color: #024a3a;
+}
+
+.btn-secondary {
+  background-color: transparent;
+  color: #013328;
+  border: 1px solid #013328;
+}
+
+.btn-secondary:hover {
+  background-color: #f5f5f5;
+}
+
+/* Kolom Kanan */
+.column-right {
+  flex: 0.9;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.about-wrapper {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.about-card {
+  position: relative;
+  width: 260px;
+  height: 150px;
+  border-radius: 16px;
+  overflow: hidden;
+}
+
+.bg-cover {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.about-label {
+  position: absolute;
+  bottom: 14px;
+  left: 16px;
+  color: white;
+  font-weight: 500;
+  font-size: 14px;
+  text-shadow: 0 2px 4px rgba(0,0,0,0.5);
+}
+
+.arrow-btn {
+  position: absolute;
+  background-color: #013328;
+  border: none;
+  width: 28px;
+  height: 28px;
+  border-radius: 6px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+}
+
+.about-card .arrow-btn {
+  bottom: 12px;
+  right: 12px;
+}
+
+.dedication-card {
+  position: relative;
+  flex-grow: 1;
+  border-radius: 20px;
+  overflow: hidden;
+  min-height: 320px;
+}
+
+.dedication-box {
+  position: absolute;
+  top: 16px;
+  left: 16px;
+  background-color: white;
+  padding: 20px;
+  border-radius: 12px;
+  width: 75%;
+  max-width: 300px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+}
+
+.dedication-box p {
+  font-family: 'Playfair Display', serif;
+  font-size: 14px;
+  color: #1a1a1a;
+  line-height: 1.5;
+  font-weight: 600;
+}
+
+.dedication-card .bottom-right {
+  bottom: 16px;
+  right: 16px;
+}
+
+/* Responsivitas untuk layar kecil */
+@media (max-width: 968px) {
+  .top-row, .bottom-row {
+    flex-direction: column;
+    gap: 20px;
+  }
+  .title-light, .title-bold {
+    white-space: normal;
+    font-size: 32px;
+  }
+  .about-wrapper {
+    justify-content: flex-start;
+  }
+  .about-card {
+    width: 100%;
+    height: 160px;
+  }
+}
