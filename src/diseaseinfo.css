@@ -1,0 +1,36 @@
+/* Counter */
+.disease-counter {
+  font-size: 14px;
+  font-weight: 600;
+  color: #013328;
+  opacity: 0.45;
+}
+
+/* Animasi fade konten */
+.fade-in {
+  animation: fadeSlideIn 0.35s ease forwards;
+}
+.fade-out {
+  opacity: 0;
+  transform: translateX(10px);
+  transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+/* Animasi fade gambar */
+.img-fade-in {
+  animation: fadeIn 0.4s ease forwards;
+}
+.img-fade-out {
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+@keyframes fadeSlideIn {
+  from { opacity: 0; transform: translateX(14px); }
+  to   { opacity: 1; transform: translateX(0); }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}

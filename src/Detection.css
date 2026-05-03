@@ -1,0 +1,210 @@
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Playfair+Display:wght@400;600;700&display=swap");
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+.detection-wrapper {
+  position: relative;
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 40px;
+  font-family: "Playfair Display", serif;
+  overflow: auto;
+}
+
+.detection-background-img {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  z-index: 0;
+}
+
+.detection-main-container {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  max-width: 850px; /* Disesuaikan agar sama lebarnya dengan Result */
+  display: flex;
+  flex-direction: column;
+}
+
+.detection-card-outer {
+  background-color: white;
+  border-radius: 20px;
+  padding: 30px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+}
+
+.back-link {
+  font-size: 28px;
+  font-weight: 600;
+  color: #013328;
+  cursor: pointer;
+  margin-bottom: 20px;
+  display: inline-block;
+}
+
+.back-link:hover {
+  opacity: 0.8;
+}
+
+.upload-card {
+  border: 2px dashed #b5bec5;
+  border-radius: 12px;
+  padding: 60px 40px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  min-height: 350px;
+  background-color: transparent;
+}
+
+.upload-card:hover:not(.has-image):not(.loading) {
+  background-color: #f8faf9;
+  border-color: #013328;
+}
+
+.upload-card.drag-active {
+  border-color: #013328;
+  background-color: #f0f7f5;
+}
+
+.upload-card.has-image,
+.upload-card.loading {
+  border: none;
+  padding: 30px;
+  background-color: #f5f5f5;
+  cursor: default;
+}
+
+.upload-icon {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.upload-text-group {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+}
+
+.upload-title {
+  font-family: "Playfair Display", serif;
+  font-size: 22px;
+  font-weight: 600;
+  color: #013328;
+  text-align: center;
+}
+
+.upload-subtitle {
+  font-family: "Inter", sans-serif;
+  font-size: 14px;
+  color: #555;
+  text-align: center;
+}
+
+.loading-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+  width: 100%;
+}
+
+.spinner {
+  width: 50px;
+  height: 50px;
+  border: 4px solid #e0e0e0;
+  border-top: 4px solid #013328;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+.loading-text {
+  font-size: 16px;
+  font-weight: 600;
+  color: #013328;
+}
+
+/* Preview Styles */
+.preview-container {
+  width: 100%;
+  border-radius: 12px;
+  overflow: hidden;
+  background-color: white;
+  border: 1px solid #ddd;
+}
+
+.preview-image {
+  width: 100%;
+  height: auto;
+  max-height: 400px;
+  object-fit: contain;
+  display: block;
+}
+
+.reset-btn {
+  background-color: #e74c3c;
+  color: white;
+  border: none;
+  padding: 10px 24px;
+  border-radius: 20px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-family: "Inter", sans-serif;
+}
+
+.reset-btn:hover {
+  background-color: #c0392b;
+}
+
+/* Responsivitas */
+@media (max-width: 768px) {
+  .detection-wrapper {
+    padding: 20px;
+  }
+
+  .detection-card-outer {
+    padding: 20px;
+  }
+
+  .upload-card {
+    padding: 40px 20px;
+    min-height: 250px;
+  }
+
+  .upload-title {
+    font-size: 18px;
+  }
+
+  .upload-subtitle {
+    font-size: 12px;
+  }
+}
