@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import "./DiseaseInfo.css";
+import "./diseaseinfo.css";
 import landscapeImage from "./images/landscape.jpg";
 import bacterialBlightImage from "./images/bacterial_blight.jpg";
 import brownSpotImage from "./images/brown_spot.jpg";
