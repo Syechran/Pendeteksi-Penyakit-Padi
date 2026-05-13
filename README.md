@@ -1,16 +1,50 @@
-# React + Vite
+# 🌾 Rice Disease Detection Web App
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Aplikasi web pendeteksi penyakit daun padi berbasis kecerdasan buatan (AI). Proyek ini menggunakan **React** untuk antarmuka pengguna yang responsif dan **FastAPI** sebagai backend untuk menjalankan *inference* model Deep Learning menggunakan arsitektur **YOLO11**.
 
-Currently, two official plugins are available:
+## ✨ Fitur Utama
+* **Drag & Drop Upload:** Antarmuka yang ramah pengguna untuk mengunggah gambar daun padi.
+* **Real-time AI Inference:** Proses deteksi gambar yang cepat dan akurat menggunakan model YOLO11 (`best.pt`).
+* **Visualisasi Data:** Menampilkan hasil prediksi menggunakan *Pie Chart* interaktif berserta tingkat kepercayaan (*confidence rate*).
+* **Disease Management:** Memberikan saran penanganan pertanian secara dinamis berdasarkan penyakit yang terdeteksi.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+## 🛠️ Tech Stack
+* **Frontend:** React, React Router Dom, Recharts (untuk visualisasi data), CSS murni.
+* **Backend:** FastAPI, Uvicorn, Python-multipart.
+* **Machine Learning:** Ultralytics (YOLO11), Pillow (PIL).
 
-## React Compiler
+## 🚀 Cara Menjalankan Aplikasi di Komputer Lokal
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+Karena aplikasi ini terdiri dari Frontend dan Backend, kamu perlu membuka **dua terminal terpisah** untuk menjalankannya.
 
-## Expanding the ESLint configuration
+### 1. Menjalankan Backend (FastAPI)
+Pastikan kamu sudah menginstal Python di komputermu. Buka terminal baru dan masuk ke folder backend.
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+```bash
+# Masuk ke direktori backend (sesuaikan nama foldernya jika berbeda)
+cd backend
+
+# (Opsional tapi disarankan) Buat dan aktifkan virtual environment
+python -m venv venv
+# Windows: venv\Scripts\activate
+# Mac/Linux: source venv/bin/activate
+
+# Instal semua library yang dibutuhkan
+pip install fastapi uvicorn python-multipart ultralytics pillow
+
+# Jalankan server
+uvicorn main:app --reload
+
+### 2. Menjalankan Frontend (React)
+Buka terminal **kedua**, masuk ke folder frontend, dan jalankan perintah berikut. Ini akan membuka aplikasi di browser kamu (biasanya di `http://localhost:5173/`).
+
+```bash
+# Masuk ke direktori frontend
+cd my-app
+
+# (Opsional) Instal dependensi jika belum
+npm install
+
+# Jalankan aplikasi
+npm run dev
+```

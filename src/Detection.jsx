@@ -35,36 +35,59 @@ function Detection() {
     }
   };
 
-  const handleImageFile = (file) => {
-    if (file.type.startsWith("image/")) {
-      setIsLoading(true);
-      const reader = new FileReader();
-      reader.onload = (e) => {
-        setTimeout(() => {
-          const imageData = e.target.result;
-          setUploadedImage(imageData);
-
-          // Mock detection data - later replace with actual AI model call
-          const mockDetectionData = {
-            mainDisease: "Leaf Blast",
-            confidence: 60,
-            uploadedImage: imageData,
-            breakdown: [
-              { name: "Leaf Blast", value: 60, color: "#013328" },
-              { name: "Sheath Blight", value: 30, color: "#8fa886" },
-              { name: "Healthy", value: 10, color: "#dbe4cd" },
-            ],
-          };
-
-          setIsLoading(false);
-          navigate("/detection-result", { state: { detectionData: mockDetectionData } });
-        }, 2000);
-      };
-      reader.readAsDataURL(file);
-    } else {
+  // --- BAGIAN YANG DIUPDATE ---
+  const handleImageFile = async (file) => {
+    if (!file.type.startsWith("image/")) {
       alert("Please upload a valid image file");
+      return;
     }
+
+    setIsLoading(true);
+
+    // 1. Baca file sebagai URL lokal untuk preview langsung
+    const reader = new FileReader();
+    reader.onload = async (e) => {
+      const imageData = e.target.result;
+      setUploadedImage(imageData);
+
+      // 2. Siapkan file untuk dikirim ke backend
+      const formData = new FormData();
+      formData.append("file", file); // Key 'file' harus sama dengan parameter UploadFile di FastAPI
+
+      try {
+        // 3. Panggil API FastAPI
+        const response = await fetch("http://localhost:8000/api/detect", {
+          method: "POST",
+          body: formData,
+        });
+
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
+
+        const data = await response.json();
+
+        // 4. Gabungkan hasil deteksi AI dengan gambar lokal
+        const detectionData = {
+          mainDisease: data.mainDisease,
+          confidence: data.confidence,
+          uploadedImage: imageData, 
+          breakdown: data.breakdown,
+        };
+
+        setIsLoading(false);
+        // Lempar data ke halaman hasil
+        navigate("/detection-result", { state: { detectionData: detectionData } });
+
+      } catch (error) {
+        console.error("Error during AI detection:", error);
+        alert("Gagal menghubungi server deteksi AI. Pastikan backend sudah berjalan.");
+        setIsLoading(false);
+      }
+    };
+    reader.readAsDataURL(file);
   };
+  // -----------------------------
 
   const handleFileInputChange = (e) => {
     if (e.target.files && e.target.files[0]) {
@@ -77,7 +100,7 @@ function Detection() {
   };
 
   const handleReset = (e) => {
-    e.stopPropagation(); // Mencegah trigger klik pada area drop
+    e.stopPropagation(); 
     setUploadedImage(null);
     setIsLoading(false);
     if (fileInputRef.current) {
@@ -144,7 +167,7 @@ function Detection() {
             ) : isLoading ? (
               <div className="loading-container">
                 <div className="spinner"></div>
-                <p className="loading-text">Processing image...</p>
+                <p className="loading-text">Processing image with AI...</p>
               </div>
             ) : (
               <>

@@ -89,8 +89,9 @@
 }
 
 .chart-wrapper {
-  width: 180px;
-  height: 180px;
+  /* Diperbesar dari 180px agar potongan pie cukup luas untuk teks di dalamnya */
+  width: 250px; 
+  height: 250px;
 }
 
 .info-wrapper {
@@ -106,10 +107,10 @@
 }
 
 .percentage-huge {
-  font-size: 80px;
-  font-weight: 600;
-  line-height: 1;
+  font-size: 48px;
+  font-weight: bold;
   color: #013328;
+  margin-right: 15px;
 }
 
 .disease-title-col {
@@ -124,9 +125,11 @@
 }
 
 .disease-name {
-  font-size: 34px;
-  font-weight: 600;
-  line-height: 1.1;
+font-weight: bold;
+  font-size: 20px;
+  color: #013328;
+  margin-bottom: 5px;
+  display: block;
 }
 
 .breakdown-list {
@@ -134,17 +137,22 @@
   flex-direction: column;
   gap: 8px;
   padding-left: 5px;
+  margin-top: 15px;
 }
 
 .breakdown-text-row {
-  font-size: 16px;
-  font-weight: 600;
+margin-bottom: 5px; 
+  font-size: 14px;
+  color: #333;
+  display: flex;
+  align-items: center;
 }
 
 .disease-management-section h3 {
+  margin-top: 20px;
+  margin-bottom: 10px;
   font-size: 18px;
-  font-weight: 600;
-  margin-bottom: 12px;
+  color: #013328;
 }
 
 .disease-management-section p {
@@ -170,4 +178,23 @@
     flex-direction: column;
     text-align: center;
   }
+}
+
+/* Bagian Menampilkan Gambar yang Diunggah */
+.uploaded-image-section {
+  margin-top: 25px; /* Jarak lebih luas dari info atas */
+  text-align: center;
+}
+
+.uploaded-image-section p {
+  margin-bottom: 10px;
+  font-size: 14px;
+  color: #666;
+}
+
+.uploaded-image-section img {
+  max-width: 250px; /* Sedikit lebih besar */
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
 }
