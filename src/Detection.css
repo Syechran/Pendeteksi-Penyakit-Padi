@@ -89,6 +89,111 @@
   cursor: default;
 }
 
+/* Two Column Upload Options */
+.upload-options-container {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+}
+
+.upload-option-card {
+  border: 2px dashed #b5bec5;
+  border-radius: 12px;
+  padding: 40px 30px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  min-height: 280px;
+  background-color: transparent;
+}
+
+.upload-option-card:hover {
+  background-color: #f8faf9;
+  border-color: #013328;
+}
+
+.upload-option-card.drag-active {
+  border-color: #013328;
+  background-color: #f0f7f5;
+}
+
+.camera-option-card {
+  cursor: pointer;
+}
+
+/* Camera Styles */
+.camera-container {
+  border-radius: 12px;
+  overflow: hidden;
+  background-color: #000;
+  position: relative;
+  min-height: 400px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.camera-video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transform: scaleX(-1);
+}
+
+.camera-controls {
+  position: absolute;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 12px;
+  z-index: 10;
+}
+
+.camera-btn {
+  padding: 12px 24px;
+  border: none;
+  border-radius: 20px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-family: "Inter", sans-serif;
+}
+
+.capture-btn {
+  background-color: #013328;
+  color: white;
+}
+
+.capture-btn:hover {
+  background-color: #01483f;
+}
+
+.cancel-btn {
+  background-color: #e74c3c;
+  color: white;
+}
+
+.cancel-btn:hover {
+  background-color: #c0392b;
+}
+
+.camera-error {
+  background-color: #fff3cd;
+  color: #856404;
+  border: 1px solid #ffeeba;
+  border-radius: 8px;
+  padding: 12px 16px;
+  font-size: 14px;
+  font-weight: 500;
+  text-align: center;
+}
+
 .upload-icon {
   display: flex;
   justify-content: center;
@@ -205,6 +310,35 @@
   }
 
   .upload-subtitle {
+    font-size: 12px;
+  }
+
+  .upload-options-container {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+
+  .upload-option-card {
+    padding: 30px 20px;
+    min-height: 240px;
+    gap: 12px;
+  }
+
+  .upload-title {
+    font-size: 18px;
+  }
+
+  .camera-container {
+    min-height: 300px;
+  }
+
+  .camera-controls {
+    bottom: 12px;
+    gap: 8px;
+  }
+
+  .camera-btn {
+    padding: 10px 16px;
     font-size: 12px;
   }
 }

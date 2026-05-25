@@ -7,8 +7,56 @@ function Detection() {
   const [uploadedImage, setUploadedImage] = useState(null);
   const [isDragActive, setIsDragActive] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  const [cameraActive, setCameraActive] = useState(false);
+  const [cameraPermissionDenied, setCameraPermissionDenied] = useState(false);
+
   const fileInputRef = useRef(null);
+  const videoRef = useRef(null);
+  const canvasRef = useRef(null);
+  const streamRef = useRef(null);
   const navigate = useNavigate();
+
+  const startCamera = async () => {
+    try {
+      setCameraPermissionDenied(false);
+      const stream = await navigator.mediaDevices.getUserMedia({
+        video: { facingMode: "environment" },
+      });
+      streamRef.current = stream;
+      if (videoRef.current) {
+        videoRef.current.srcObject = stream;
+      }
+      setCameraActive(true);
+    } catch (err) {
+      console.error("Error accessing camera:", err);
+      setCameraPermissionDenied(true);
+      alert("Unable to access camera. Please check permissions.");
+    }
+  };
+
+  const capturePhoto = async () => {
+    if (videoRef.current && canvasRef.current) {
+      const context = canvasRef.current.getContext("2d");
+      canvasRef.current.width = videoRef.current.videoWidth;
+      canvasRef.current.height = videoRef.current.videoHeight;
+      context.drawImage(videoRef.current, 0, 0);
+
+      canvasRef.current.toBlob((blob) => {
+        if (blob) {
+          handleImageFile(blob);
+          stopCamera();
+        }
+      }, "image/jpeg");
+    }
+  };
+
+  const stopCamera = () => {
+    if (streamRef.current) {
+      streamRef.current.getTracks().forEach((track) => track.stop());
+      streamRef.current = null;
+    }
+    setCameraActive(false);
+  };
 
   const handleDrag = (e) => {
     e.preventDefault();
@@ -21,6 +69,7 @@ function Detection() {
   };
 
   const handleBack = () => {
+    stopCamera();
     navigate("/");
   };
 
@@ -100,12 +149,16 @@ function Detection() {
   };
 
   const handleReset = (e) => {
-    e.stopPropagation(); 
+    e.stopPropagation();
     setUploadedImage(null);
     setIsLoading(false);
     if (fileInputRef.current) {
       fileInputRef.current.value = "";
     }
+  };
+
+  const handleCameraReset = () => {
+    stopCamera();
   };
 
   return (
@@ -115,34 +168,73 @@ function Detection() {
         alt="background"
         className="detection-background-img"
       />
-      
+
       <div className="detection-main-container">
-        {/* Outer Solid White Card */}
         <div className="detection-card-outer">
-          
           <div className="back-link" onClick={handleBack}>
             Back
           </div>
 
-          {/* Inner Dashed Card for Upload */}
-          <div
-            className={`upload-card ${uploadedImage ? "has-image" : ""} ${
-              isDragActive ? "drag-active" : ""
-            } ${isLoading ? "loading" : ""}`}
-            onDragEnter={handleDrag}
-            onDragLeave={handleDrag}
-            onDragOver={handleDrag}
-            onDrop={handleDrop}
-            onClick={!uploadedImage && !isLoading ? handleBrowseClick : undefined}
-          >
-            {!uploadedImage && !isLoading ? (
-              <>
+          {/* Show uploaded image or loading state */}
+          {uploadedImage || isLoading ? (
+            <div className={`upload-card ${uploadedImage ? "has-image" : ""} ${isLoading ? "loading" : ""}`}>
+              {isLoading ? (
+                <div className="loading-container">
+                  <div className="spinner"></div>
+                  <p className="loading-text">Processing image with AI...</p>
+                </div>
+              ) : (
+                <>
+                  <div className="preview-container">
+                    <img
+                      src={uploadedImage}
+                      alt="uploaded preview"
+                      className="preview-image"
+                    />
+                  </div>
+                  <button className="reset-btn" onClick={handleReset}>
+                    ✕ Change Image
+                  </button>
+                </>
+              )}
+            </div>
+          ) : cameraActive ? (
+            /* Camera View */
+            <div className="camera-container">
+              <video
+                ref={videoRef}
+                autoPlay
+                playsInline
+                className="camera-video"
+              />
+              <canvas ref={canvasRef} style={{ display: "none" }} />
+              <div className="camera-controls">
+                <button className="camera-btn capture-btn" onClick={capturePhoto}>
+                  📸 Capture
+                </button>
+                <button className="camera-btn cancel-btn" onClick={handleCameraReset}>
+                  ✕ Cancel
+                </button>
+              </div>
+            </div>
+          ) : (
+            /* Initial Two-Column Layout */
+            <div className="upload-options-container">
+              {/* Upload Option */}
+              <div
+                className={`upload-option-card ${isDragActive ? "drag-active" : ""}`}
+                onDragEnter={handleDrag}
+                onDragLeave={handleDrag}
+                onDragOver={handleDrag}
+                onDrop={handleDrop}
+                onClick={handleBrowseClick}
+              >
                 <div className="upload-icon">
-                  <svg 
-                    width="80" 
-                    height="80" 
-                    viewBox="0 0 24 24" 
-                    fill="none" 
+                  <svg
+                    width="80"
+                    height="80"
+                    viewBox="0 0 24 24"
+                    fill="none"
                     xmlns="http://www.w3.org/2000/svg"
                   >
                     <rect x="2" y="4" width="20" height="16" rx="3" fill="#013328"/>
@@ -163,27 +255,37 @@ function Detection() {
                   onChange={handleFileInputChange}
                   style={{ display: "none" }}
                 />
-              </>
-            ) : isLoading ? (
-              <div className="loading-container">
-                <div className="spinner"></div>
-                <p className="loading-text">Processing image with AI...</p>
               </div>
-            ) : (
-              <>
-                <div className="preview-container">
-                  <img
-                    src={uploadedImage}
-                    alt="uploaded preview"
-                    className="preview-image"
-                  />
+
+              {/* Camera Option */}
+              <div className="upload-option-card camera-option-card" onClick={startCamera}>
+                <div className="upload-icon">
+                  <svg
+                    width="80"
+                    height="80"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <rect x="3" y="5" width="18" height="14" rx="2" fill="#013328"/>
+                    <circle cx="12" cy="12" r="4" fill="white"/>
+                  </svg>
                 </div>
-                <button className="reset-btn" onClick={handleReset}>
-                  ✕ Change Image
-                </button>
-              </>
-            )}
-          </div>
+                <div className="upload-text-group">
+                  <p className="upload-title">Open your camera</p>
+                  <p className="upload-subtitle">
+                    Better image quality, better the analysis
+                  </p>
+                </div>
+              </div>
+
+              {cameraPermissionDenied && (
+                <div className="camera-error" style={{ gridColumn: "1 / -1" }}>
+                  ⚠️ Camera permission denied. Please enable camera access in your browser settings.
+                </div>
+              )}
+            </div>
+          )}
         </div>
       </div>
     </div>
