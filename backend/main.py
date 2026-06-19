@@ -1,9 +1,11 @@
 from fastapi import FastAPI, UploadFile, File, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.staticfiles import StaticFiles
+from fastapi.responses import FileResponse
 from ultralytics import YOLO
 from PIL import Image
 import io
-
+import os
 app = FastAPI()
 
 # Konfigurasi CORS agar React bisa menembak API ini
@@ -17,7 +19,10 @@ app.add_middleware(
 
 # Load model YOLO11
 try:
-    model = YOLO("best.pt")
+    # Get the directory of main.py
+    current_dir = os.path.dirname(os.path.abspath(__file__))
+    model_path = os.path.join(current_dir, "best.pt")
+    model = YOLO(model_path)
 except Exception as e:
     print(f"Error loading model: {e}")
 
@@ -91,3 +96,34 @@ async def detect_disease(file: UploadFile = File(...)):
 
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Terjadi kesalahan saat memproses gambar: {str(e)}")
+
+# ==========================================
+# FULLSTACK CONFIGURATION: SERVE REACT APP
+# ==========================================
+# Locate the 'dist' directory. Since main.py is in backend/, dist/ is in the parent directory.
+dist_path = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "dist")
+
+if os.path.isdir(dist_path):
+    # Mount 'assets' directory specifically if it exists to serve static assets directly
+    assets_path = os.path.join(dist_path, "assets")
+    if os.path.isdir(assets_path):
+        app.mount("/assets", StaticFiles(directory=assets_path), name="assets")
+
+    # Catch-all route to serve the SPA
+    @app.get("/{full_path:path}")
+    async def serve_react_app(full_path: str):
+        # Ignore API endpoints
+        if full_path.startswith("api/"):
+            raise HTTPException(status_code=404, detail="API route not found")
+        
+        # If the requested file exists (e.g. images, favicon.ico), serve it directly
+        target_path = os.path.join(dist_path, full_path)
+        if full_path and os.path.isfile(target_path):
+            return FileResponse(target_path)
+        
+        # Otherwise, fallback to index.html for client-side routing (React Router)
+        index_path = os.path.join(dist_path, "index.html")
+        if os.path.isfile(index_path):
+            return FileResponse(index_path)
+            
+        raise HTTPException(status_code=404, detail="Frontend build not found.")
